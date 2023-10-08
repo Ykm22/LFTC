@@ -111,7 +111,7 @@ int main() {
 }
 
 - program care contine 2 erori conform MLP, dar care nu sunt erori in limbajul original
-
+(n--, sum+= x, sum = 0)
 int main() {
     int n, x, sum = 0;
     cin >> n;
