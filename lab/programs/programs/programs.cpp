@@ -10,6 +10,7 @@ void p1() {
     area = pi * radius * radius;
     cout << perimeter << " " << area;
 }
+
 void p2() {
     int a, b, gcd;
     cin >> a >> b;
