@@ -31,18 +31,75 @@ def beginsWithPunctuationMark(atom):
     return False 
 
 def clean_atom(atom):
-    if(isPunctuatonMark(atom)):
+    # if(isPunctuatonMark(atom)):
+    #     return None
+    # while endsInPunctuationMark(atom):
+    #     atom = atom[0:-1]
+    # while beginsWithPunctuationMark(atom):
+    #     atom = atom[1:]
+    if atom == "":
         return None
-    while endsInPunctuationMark(atom):
-        atom = atom[0:-1]
-    while beginsWithPunctuationMark(atom):
-        atom = atom[1:]
     return atom
+
+def isInteger(atom):
+    return atom.isdigit() or (atom[0] == '-' and atom[1:].isdigit())
+
+def isFloat(atom):
+    try:
+        float(atom)
+        return True
+    except Exception:
+        return False
+
+def isOperator(atom):
+    operators = ["+", "-", "/", "%", "=", "<<", ">>", "!=", "*"]
+    return atom in operators
+
+def isIdentifier(atom):
+    return atom.isalpha()
+
+def isKeyword(atom):
+    keywords = ["while", "if", "for", "int", "float", "namespace", "using", "#include", "return", "else"]
+    return atom in keywords or ( atom[0] == '<' and atom[-1] == '>')
+
+def isHexa(atom):
+    return atom[0] == "0" and atom[1] == "x" and isInteger(atom[2:])
+
+def isSeparator(atom):
+    return atom == "," or atom == ";" or atom == "(" or atom == ")" or atom == "{" or atom == "}"
+
+def isBinary(atom):
+    if atom[0] == "0" and atom[1] == "b":
+        for i in range(2, len(atom)):
+            if atom[i] != "0" and atom[i] != "1":
+                return False
+        return True
+    return False
 
 def save_atoms(atoms, output_file):
     for atom in atoms:
-        if(atom != None):
-            output_file.write(atom + "\n")
+        if atom != None:
+            output_file.write(atom + ",")
+            if isInteger(atom):
+                output_file.write("int")
+            elif isFloat(atom):
+                output_file.write("float")
+            elif isHexa(atom):
+                output_file.write("hexa")
+            elif isBinary(atom):
+                output_file.write("binary")
+            elif isOperator(atom):
+                output_file.write("operator")
+            elif isKeyword(atom):
+                output_file.write("keyword")
+            elif isSeparator(atom):
+                output_file.write("separator")
+            elif isIdentifier(atom):
+                output_file.write("ID")
+            else:
+                output_file.write("unknown symbol\n")
+                quit()
+            output_file.write("\n")
 
 def delete_output_file(file, directory):
     if not os.path.exists(directory):
