@@ -20,7 +20,8 @@ area,ID
 ;,separator
 pi,ID
 =,operator
-3.14,float
+3.14,CONST
+",unknown operator
 ;,separator
 cin,ID
 >>,operator
@@ -28,7 +29,7 @@ radius,ID
 ;,separator
 perimeter,ID
 =,operator
-2,int
+2,CONST
 *,operator
 pi,ID
 *,operator
@@ -46,4 +47,3 @@ cout,ID
 <<,operator
 perimeter,ID
 <<,operator
-",unknown symbol
