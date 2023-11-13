@@ -38,11 +38,12 @@ class AF:
     
     def longest_prefix(self, sequence):
         longest_prefix = None
-        prefix = []
+        prefix = ""
 
         current_state = self.initial_state
 
         for current_path in sequence:
+
             if current_state in self.transitions:
                 neighbors = self.get_neighbors(current_state)
             else:
@@ -56,7 +57,7 @@ class AF:
                 if current_path == path:
                     chosen_neighbor = neighbor
             current_state = chosen_neighbor
-            prefix.append(current_path)
+            prefix += current_path
 
             if current_state in self.final_states:
                 longest_prefix = prefix
