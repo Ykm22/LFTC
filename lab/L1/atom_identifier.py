@@ -15,7 +15,7 @@ def read_cmd_line():
     args = parser.parse_args()
     return args.input_file
 
-punctuationMarks = [";", ",", " ", "(", ")", "{", "}", ""]
+punctuationMarks = [";", ",", " ", "(", ")", "{", "}", "", ">", "<"]
 def isPunctuatonMark(ch):
     if(ch in punctuationMarks):
         return True
@@ -68,6 +68,10 @@ def isHexa(atom):
 
 def isSeparator(atom):
     return atom == "," or atom == ";" or atom == "(" or atom == ")" or atom == "{" or atom == "}"
+
+def isKeywordPart(atom):
+    return atom == "#" or atom == "<" or atom == ">"
+
 
 def isBinary(atom):
     if atom[0] == "0" and atom[1] == "b":
@@ -232,6 +236,9 @@ def main(input_file):
                         ids_result = AF_IDS.longest_prefix(curr_atom)
 
                         if len(ids_result) != len(curr_atom):
+                            if not isSeparator(ch) and not isPunctuatonMark(ch) and not isOperator(ch):
+                                print(f"Incorrect file, found: {curr_atom}")
+                                exit(1)
                             atoms.append((ids_result, "ID"))
                             curr_atom = ""
                             type = 0
@@ -244,22 +251,35 @@ def main(input_file):
                             type = 3
                         else:
                             if len(int_result) != len(curr_atom):
+                                if not isSeparator(ch) and not isPunctuatonMark(ch) and not isOperator(ch):
+                                    print(f"Incorrect file, found: {curr_atom}")
+                                    exit(1)
+
                                 atoms.append((int_result, "CONST"))
                                 curr_atom = ""
                                 type = 0
 
                     elif type == 3:
-                        while len(curr_atom) < 3:
-                            ch = file.read(1)
-                            curr_atom += ch
-
                         float_result = AF_FLOATS.longest_prefix(curr_atom)
+
+                        if float_result == False:
+                            print(f"Incorrect file, found: {curr_atom}")
+                            exit(1)
+
                         if len(float_result) < len(curr_atom):
+                            if not isSeparator(ch) and not isPunctuatonMark(ch) and not isOperator(ch):
+                                print(f"Incorrect file, found: {curr_atom}")
+                                exit(1)
                             atoms.append((float_result, "CONST"))
                             curr_atom = ""
                             type = 0
 
+
                     else:
+                        if not isSeparator(ch) and not isKeywordPart(ch) and ch != " " and ch != "\"" and ch != "\n":
+                            print(f"curr_atom = {curr_atom}, ch = {ch} xd")
+                            print("Incorrect input file")
+                            exit(1)
                         curr_atom = ""
                         type = 0
 
