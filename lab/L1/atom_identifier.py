@@ -121,6 +121,7 @@ def save_atoms_v2(atoms, output_file):
         elif type == "separator":
             output_file.write("separator")
         else:
+            print(type)
             output_file.write("unknown symbol\n")
             quit()
         output_file.write("\n")
@@ -236,12 +237,17 @@ def main(input_file):
                         ids_result = AF_IDS.longest_prefix(curr_atom)
 
                         if len(ids_result) != len(curr_atom):
-                            if not isSeparator(ch) and not isPunctuatonMark(ch) and not isOperator(ch):
-                                print(f"Incorrect file, found: {curr_atom}")
-                                exit(1)
-                            atoms.append((ids_result, "ID"))
-                            curr_atom = ""
-                            type = 0
+                            if isKeyword(curr_atom): 
+                                atoms.append((curr_atom, "ID"))
+                                curr_atom = ""
+                                type = 0
+                            else:
+                                if not isSeparator(ch) and not isPunctuatonMark(ch) and not isOperator(ch):
+                                    print(f"Incorrect file, found: {curr_atom}")
+                                    exit(1)
+                                atoms.append((ids_result, "ID"))
+                                curr_atom = ""
+                                type = 0
 
                     elif (type == 0 and ch in NUMBERS) or type == 2:
                         type = 2

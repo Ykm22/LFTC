@@ -4,7 +4,7 @@ using namespace std;
 
 int main()
 {
-    double radius,pi,perimeter,area;
+    double radius,pi,perim,area;
     pi=3.14;
     0x1234AAA;
     0b010101;
@@ -13,8 +13,8 @@ int main()
     0.1111;
     123.1;
     cin>>radius;
-    perimeter=2*pi*radius;
+    perim=2*pi*radius;
     area=pi*radius*radius;
-    cout<<perimeter<<" "<<area;
+    cout<<perim<<" "<<area;
     return 0;
 }

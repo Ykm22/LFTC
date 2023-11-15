@@ -14,7 +14,7 @@ radius,ID
 ,,separator
 pi,ID
 ,,separator
-perimeter,ID
+perim,ID
 ,,separator
 area,ID
 ;,separator
@@ -26,7 +26,7 @@ pi,ID
 ;,separator
 0b010101,CONST
 ;,separator
-012.34,CONST
+01234,CONST
 ;,separator
 0.0,CONST
 ;,separator
@@ -37,7 +37,7 @@ pi,ID
 cin,ID
 radius,ID
 ;,separator
-perimeter,ID
+perim,ID
 =,operator
 2,CONST
 *,operator
@@ -54,7 +54,7 @@ radius,ID
 radius,ID
 ;,separator
 cout,ID
-perimeter,ID
+perim,ID
 area,ID
 ;,separator
 return,keyword
