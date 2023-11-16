@@ -74,6 +74,8 @@ OCTAL_NUMBER  0[oO]?[0-7]+
 FLOAT_NUMBER  [+-]?([0-9]*[.])?[0-9]+([eE][+-]?[0-9]+)?
 
 IDENTIFIER    [A-Za-z][A-Za-z0-9]{0,7}
+ILLEGAL_ID    [A-Za-z0-9]{9,}
+
 STRING        \".*\"
 
 /*** Rule Section ***/
@@ -113,17 +115,18 @@ char									{ printf("%s - cod ATOM: %d \n", yytext, 9); }
 \{                                      { printf("%s - cod ATOM: %d \n", yytext, 32); }
 \}                                      { printf("%s - cod ATOM: %d \n", yytext, 33); }
 \;                                      { printf("%s - cod ATOM %d \n", yytext, 34); }
-[\n]									{ ++lineNumber; }
-{IDENTIFIER}							{ addToTSIDS(yytext); }
 {INT_NUMBER}                            { addToTSCONSTS(yytext); }
 {HEXA_NUMBER}                           { addToTSCONSTS(yytext); }
 {BINARY_NUMBER}                         { addToTSCONSTS(yytext); }
 {OCTAL_NUMBER}                          { addToTSCONSTS(yytext); }
 {FLOAT_NUMBER}                          { addToTSCONSTS(yytext); }
 {STRING}								{ printf("%s - CONST \n",yytext); }
+{IDENTIFIER}							{ addToTSIDS(yytext); }
+{ILLEGAL_ID}                            { errorFound = 1; printf("Illegal token %s at line %d !", yytext, lineNumber); return 0; }
+[\n]									{ ++lineNumber; }
 [ \t\n]+             					{ ; /* eat up whitespace */ }
 <<EOF>>									{ printFIP(); printTS(); cleanup(); return 0; }
-.                						{ errorFound = 1; printf("Illegal token %sat line %d !", yytext, lineNumber); printf("\n"); }
+.                						{ errorFound = 1; printf("Illegal token %s at line %d !", yytext, lineNumber); return 0; }
 %%
 
 /* yywrap() - wraps the above rule section */
@@ -144,6 +147,9 @@ int main(int argc, char** argv) {
 	/* yylex() - this is the main flex function which runs the Rule Section*/ 
 	// check for EOF with != 0
 	while( yylex() != 0) {}
+    if(errorFound != 0) {
+        return 0;
+    }
 
 	fclose(fp);
     
