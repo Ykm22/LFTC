@@ -651,53 +651,64 @@ char *yytext;
 /*** Definition Section ***/
 #line 3 "scanner.l"
 #include <string.h>
+#include <stdbool.h>
 #include "SymbolTableIDS.h"
 #include "SymbolTableCONSTS.h"
 
 int errorFound = 0;
 int lineNumber = 1;
 
-
-typedef struct{
+typedef struct FIP{
 	char atom[100];
 	int codAtom;
 	int codTS;
 }FIP;
 
-typedef struct{
-	char atom[100];
-	int codAtomTS;
-}TS;
-
+// Init FIP
+const int MAX_FIP_SIZE = 300;
 FIP fip[300];
-TS ts[300];
-int codTS = 0;
+int fip_size = 0;
 
 // Init SymbolTables
 // IDS
 SymbolTableIDS tableIDS;
 
-// test
-// printf("inserting into tableIDS\n");
-// insertID(&tableIDS, "test", 10);
-// int value = findID(&tableIDS, "test");
-// printf("after insert found: %d\n", &value);
-
 // CONSTS
 SymbolTableCONSTS tableCONSTS;
 
-void addToFIP(char atom[], int codAtom, int codTS) {
+void addToFIP(const char atom[], int codAtom, int codTS) {
+    if(fip_size >= MAX_FIP_SIZE) {
+        printf("Reached maximum fip size: %d\n", MAX_FIP_SIZE);
+        exit(1);
+    }
+    bool exists_already = 0;
+    for(int i = 0; i < fip_size && exists_already == 0; i++) {
+        const char* current_atom = fip[i].atom;
+        if(strcmp(current_atom, atom) == 0) {
+            exists_already = 1;
+        }
+    }
+    if(!exists_already) {
+        strcpy(fip[fip_size].atom, atom);
+        fip[fip_size].codAtom = codAtom;
+        fip[fip_size].codTS = codTS;
 
+        fip_size++; 
+    }
 }
 
 int addToTSCONSTS(const char *name) {
     // printf("added %s to consts\n", name);
-	return insertCONST(&tableCONSTS, name);
+	int codTS = insertCONST(&tableCONSTS, name);
+    addToFIP(name, 1, codTS);
+    return codTS;
 }
 
 int addToTSIDS(const char* name) {
     // printf("added %s to ids\n", name);
-    return insertID(&tableIDS, name);
+    int codTS = insertID(&tableIDS, name);
+    addToFIP(name, 0, codTS);
+    return codTS;
 }
 
 void printTS() {
@@ -712,12 +723,18 @@ void cleanup() {
     cleanupIDS(&tableIDS);
 }
 
-void printFIP() {}
+void printFIP() {
+    printf("FIP -----------\n");
+    for(int i = 0; i < fip_size; i++) {
+        FIP current_atom = fip[i];
+        printf("atom = %s --- cod atom = %d --- cod TS = %d\n", current_atom.atom, current_atom.codAtom, current_atom.codTS);
+    }
+    printf("\n");
+}
 
-
-#line 719 "scanner.c"
+#line 736 "scanner.c"
 /*** Rule Section ***/
-#line 721 "scanner.c"
+#line 738 "scanner.c"
 
 #define INITIAL 0
 
@@ -934,11 +951,11 @@ YY_DECL
 		}
 
 	{
-#line 82 "scanner.l"
+#line 99 "scanner.l"
 
-#line 84 "scanner.l"
+#line 101 "scanner.l"
 					/* yytext is the text in the buffer */
-#line 942 "scanner.c"
+#line 959 "scanner.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -997,241 +1014,241 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 85 "scanner.l"
-{ printf("%s - cod ATOM: %d \n", yytext, 30); }
+#line 102 "scanner.l"
+{ addToFIP(yytext, 30, -1); }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 86 "scanner.l"
-{ printf("%s - cod ATOM: %d \n", yytext, 31); }
+#line 103 "scanner.l"
+{ addToFIP(yytext, 31, -1); }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 87 "scanner.l"
-{ printf("%s - cod ATOM: %d \n", yytext, 35); }
+#line 104 "scanner.l"
+{ addToFIP(yytext, 35, -1); }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 88 "scanner.l"
-{ printf("%s - cod ATOM: %d \n", yytext, 29); }
+#line 105 "scanner.l"
+{ addToFIP(yytext, 29, -1); }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 89 "scanner.l"
-{ printf("%s - cod ATOM: %d \n", yytext, 2); }
+#line 106 "scanner.l"
+{ addToFIP(yytext, 2, -1); }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 90 "scanner.l"
-{ printf("%s - cod ATOM: %d \n", yytext, 3); }
+#line 107 "scanner.l"
+{ addToFIP(yytext, 3, -1); }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 91 "scanner.l"
-{ printf("%s - cod ATOM: %d \n", yytext, 4); }
+#line 108 "scanner.l"
+{ addToFIP(yytext, 4, -1); }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 92 "scanner.l"
-{ printf("%s - cod ATOM: %d \n", yytext, 5); }
+#line 109 "scanner.l"
+{ addToFIP(yytext, 5, -1); }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 93 "scanner.l"
-{ printf("%s - cod ATOM: %d \n", yytext, 6); }
+#line 110 "scanner.l"
+{ addToFIP(yytext, 6, -1); }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 94 "scanner.l"
-{ printf("%s - cod ATOM: %d \n", yytext, 7); }
+#line 111 "scanner.l"
+{ addToFIP(yytext, 7, -1); }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 95 "scanner.l"
-{ printf("%s - cod ATOM: %d \n", yytext, 8); }
+#line 112 "scanner.l"
+{ addToFIP(yytext, 8, -1); }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 96 "scanner.l"
-{ printf("%s - cod ATOM: %d \n", yytext, 9); }
+#line 113 "scanner.l"
+{ addToFIP(yytext, 9, -1); }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 97 "scanner.l"
-{ printf("%s - cod ATOM: %d \n", yytext, 21); }
+#line 114 "scanner.l"
+{ addToFIP(yytext, 21, -1); }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 98 "scanner.l"
-{ printf("%s - cod ATOM: %d \n", yytext, 10); }
+#line 115 "scanner.l"
+{ addToFIP(yytext, 10, -1); }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 99 "scanner.l"
-{ printf("%s - cod ATOM: %d \n", yytext, 11); }
+#line 116 "scanner.l"
+{ addToFIP(yytext, 11, -1); }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 100 "scanner.l"
-{ printf("%s - cod ATOM: %d \n", yytext, 12); }
+#line 117 "scanner.l"
+{ addToFIP(yytext, 12, -1); }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 101 "scanner.l"
-{ printf("%s - cod ATOM: %d \n", yytext, 13); }
+#line 118 "scanner.l"
+{ addToFIP(yytext, 13, -1); }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 102 "scanner.l"
-{ printf("%s - cod ATOM: %d \n", yytext, 14); }
+#line 119 "scanner.l"
+{ addToFIP(yytext, 14, -1); }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 103 "scanner.l"
-{ printf("%s - cod ATOM: %d \n", yytext, 15); }
+#line 120 "scanner.l"
+{ addToFIP(yytext, 15, -1); }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 104 "scanner.l"
-{ printf("%s - cod ATOM: %d \n", yytext, 16); }
+#line 121 "scanner.l"
+{ addToFIP(yytext, 16, -1); }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 105 "scanner.l"
-{ printf("%s - cod ATOM: %d \n", yytext, 17); }
+#line 122 "scanner.l"
+{ addToFIP(yytext, 17, -1); }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 106 "scanner.l"
-{ printf("%s - cod ATOM: %d \n", yytext, 18); }
+#line 123 "scanner.l"
+{ addToFIP(yytext, 18, -1); }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 107 "scanner.l"
-{ printf("%s - cod ATOM: %d \n", yytext, 19); }
+#line 124 "scanner.l"
+{ addToFIP(yytext, 19, -1); }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 108 "scanner.l"
-{ printf("%s - cod ATOM: %d \n", yytext, 20); }
+#line 125 "scanner.l"
+{ addToFIP(yytext, 20, -1); }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 109 "scanner.l"
-{ printf("%s - cod ATOM: %d \n", yytext, 22); }
+#line 126 "scanner.l"
+{ addToFIP(yytext, 22, -1); }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 110 "scanner.l"
-{ printf("%s - cod ATOM: %d \n", yytext, 23); }
+#line 127 "scanner.l"
+{ addToFIP(yytext, 23, -1); }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 111 "scanner.l"
-{ printf("%s - cod ATOM: %d \n", yytext, 24); }
+#line 128 "scanner.l"
+{ addToFIP(yytext, 24, -1); }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 112 "scanner.l"
-{ printf("%s - cod ATOM: %d \n", yytext, 25); }
+#line 129 "scanner.l"
+{ addToFIP(yytext, 25, -1); }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 113 "scanner.l"
-{ printf("%s - cod ATOM: %d \n", yytext, 26); }
+#line 130 "scanner.l"
+{ addToFIP(yytext, 26, -1); }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 114 "scanner.l"
-{ printf("%s - cod ATOM: %d \n", yytext, 27); }
+#line 131 "scanner.l"
+{ addToFIP(yytext, 27, -1); }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 115 "scanner.l"
-{ printf("%s - cod ATOM: %d \n", yytext, 28); }
+#line 132 "scanner.l"
+{ addToFIP(yytext, 28, -1); }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 116 "scanner.l"
-{ printf("%s - cod ATOM: %d \n", yytext, 32); }
+#line 133 "scanner.l"
+{ addToFIP(yytext, 32, -1); }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 117 "scanner.l"
-{ printf("%s - cod ATOM: %d \n", yytext, 33); }
+#line 134 "scanner.l"
+{ addToFIP(yytext, 33, -1); }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 118 "scanner.l"
-{ printf("%s - cod ATOM %d \n", yytext, 34); }
+#line 135 "scanner.l"
+{ addToFIP(yytext, 34, -1); }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 119 "scanner.l"
+#line 136 "scanner.l"
 { addToTSCONSTS(yytext); }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 120 "scanner.l"
+#line 137 "scanner.l"
 { addToTSCONSTS(yytext); }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 121 "scanner.l"
+#line 138 "scanner.l"
 { addToTSCONSTS(yytext); }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 122 "scanner.l"
+#line 139 "scanner.l"
 { addToTSCONSTS(yytext); }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 123 "scanner.l"
+#line 140 "scanner.l"
 { addToTSCONSTS(yytext); }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 124 "scanner.l"
-{ printf("%s - CONST \n",yytext); }
+#line 141 "scanner.l"
+{ addToFIP(yytext, 35, -1); }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 125 "scanner.l"
+#line 142 "scanner.l"
 { addToTSIDS(yytext); }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 126 "scanner.l"
+#line 143 "scanner.l"
 { errorFound = 1; printf("Illegal token %s at line %d !", yytext, lineNumber); return 0; }
 	YY_BREAK
 case 43:
 /* rule 43 can match eol */
 YY_RULE_SETUP
-#line 127 "scanner.l"
+#line 144 "scanner.l"
 { ++lineNumber; }
 	YY_BREAK
 case 44:
 /* rule 44 can match eol */
 YY_RULE_SETUP
-#line 128 "scanner.l"
+#line 145 "scanner.l"
 { ; /* eat up whitespace */ }
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
-#line 129 "scanner.l"
+#line 146 "scanner.l"
 { printFIP(); printTS(); cleanup(); return 0; }
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 130 "scanner.l"
+#line 147 "scanner.l"
 { errorFound = 1; printf("Illegal token %s at line %d !", yytext, lineNumber); return 0; }
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 131 "scanner.l"
+#line 148 "scanner.l"
 ECHO;
 	YY_BREAK
-#line 1235 "scanner.c"
+#line 1252 "scanner.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2234,7 +2251,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 131 "scanner.l"
+#line 148 "scanner.l"
 
 
 /* yywrap() - wraps the above rule section */
@@ -2251,18 +2268,15 @@ int main(int argc, char** argv) {
     initializeSymbolTableIDS(&tableIDS);
     initializeSymbolTableCONSTS(&tableCONSTS);
 
-
 	/* yylex() - this is the main flex function which runs the Rule Section*/ 
 	// check for EOF with != 0
 	while( yylex() != 0) {}
+
     if(errorFound != 0) {
         return 0;
     }
 
 	fclose(fp);
-    
-    simplePrintIDS();
-    simplePrintCONSTS();
 
 	return 0;
 }

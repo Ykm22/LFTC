@@ -7,7 +7,7 @@
 
 typedef struct SymbolEntryID
 {
-    char name[50];
+    char name[8];
     struct SymbolEntryID *next;
 } SymbolEntryID;
 
