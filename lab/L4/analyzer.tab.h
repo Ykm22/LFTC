@@ -76,7 +76,20 @@ extern int yydebug;
     PARAN = 277,                   /* PARAN  */
     SQUARE = 278,                  /* SQUARE  */
     JAVAUTIL = 279,                /* JAVAUTIL  */
-    EQ = 280                       /* EQ  */
+    EQ = 280,                      /* EQ  */
+    INCLUDE = 281,                 /* INCLUDE  */
+    USING = 282,                   /* USING  */
+    ANTHET = 283,                  /* ANTHET  */
+    OPENED_BRACE = 284,            /* OPENED_BRACE  */
+    CLOSED_BRACE = 285,            /* CLOSED_BRACE  */
+    INT = 286,                     /* INT  */
+    FLOAT = 287,                   /* FLOAT  */
+    IN_OPERATOR = 288,             /* IN_OPERATOR  */
+    OUT_OPERATOR = 289,            /* OUT_OPERATOR  */
+    STRING = 290,                  /* STRING  */
+    CIN = 291,                     /* CIN  */
+    COUT = 292,                    /* COUT  */
+    RETURN = 293                   /* RETURN  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif

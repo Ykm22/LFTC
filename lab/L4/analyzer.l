@@ -40,7 +40,6 @@ SymbolTableCONSTS tableCONSTS;
 void initializeSymbolTableCONSTS()
 {
     tableCONSTS.size = TABLE_SIZE;
-    printf("Initiated consts with table_size = %d\n", tableCONSTS.size);
     for (int i = 0; i < TABLE_SIZE; i++)
     {
         tableCONSTS.symbols[i] = NULL;
@@ -69,10 +68,7 @@ void addToFIP(const char* atom, int codAtom,int codTS){
 }
 
 int addToTSCONSTS(const char *name) {
-    printf("table consts size = %d\n", tableCONSTS.size);
 	int codTS = insertCONST(&tableCONSTS, name);
-    printf("added %s to consts\n", name);
-    printf("table consts size = %d\n", tableCONSTS.size);
     addToFIP(name, 1, codTS);
     return codTS;
 }
@@ -119,30 +115,40 @@ FLOAT_NUMBER  [+-]?([0-9]*[.])?[0-9]+([eE][+-]?[0-9]+)?
 
 
 %%
-if              { addToFIP(yytext, 2, -1); printf("%s added to fip \n", yytext); return IF; }
-else            { addToFIP(yytext, 3, -1); printf("%s is simbol \n", yytext); return ELSE; }
-while           { addToFIP(yytext, 4, -1); printf("%s is simbol \n", yytext); return WHILE;  }
-"/"             { addToFIP(yytext,27,-1); printf("%s is simbol \n", yytext); return DIVID;  }
-"<"             { addToFIP(yytext,31,-1); printf("%s is simbol \n", yytext); return LT;   }
-">"             { addToFIP(yytext,32,-1); printf("%s is simbol \n", yytext); return GT;  }
-"("|")"         { addToFIP(yytext,33,-1); printf("%s is simbol \n", yytext); return PARAN; }
-"{"|"}"         { addToFIP(yytext,34,-1); printf("%s is simbol \n", yytext); return BRACE; }
-"["|"]"         { addToFIP(yytext,35,-1); printf("%s is simbol \n", yytext); return SQUARE; }
-":"             { addToFIP(yytext,36,-1); printf("%s is simbol \n", yytext); return COLON; }
-";"             { addToFIP(yytext,37,-1); printf("%s is simbol \n", yytext); return SEMICOLON; }
-","             { addToFIP(yytext,38,-1); printf("%s is simbol \n", yytext); return COMMA; }
-"."             { addToFIP(yytext,39,-1); printf("%s is simbol \n", yytext); return PERIOD; }
-"="             { addToFIP(yytext,40,-1); printf("%s is simbol \n", yytext); return ASSIGN; }
-"+"             { addToFIP(yytext,41,-1); printf("%s is simbol \n", yytext); return PLUS; }
-"-"             { addToFIP(yytext,42,-1); printf("%s is simbol \n", yytext); return MINUS; }
-"*"             { addToFIP(yytext,43,-1); printf("%s is simbol \n", yytext); return MUL; }
-"!="            { addToFIP(yytext,44,-1); printf("%s is simbol \n", yytext); return NE; }
-"=="            { addToFIP(yytext,45,-1); printf("%s is simbol \n", yytext); return EQ; }
-
-
+"#include"[\t ]+["<]([^">]+)[>"]   {addToFIP(yytext, 46, -1); return INCLUDE; }
+"using"[\t ]+"namespace"[\t ]+[a-zA-Z]+ {addToFIP(yytext, 47, -1); return USING; }
+"int"[\t ]+"main"[\t ]*"("[\t ]*")" {addToFIP(yytext, 48, -1); return ANTHET; }
+"return"[\t ]+0 {addToFIP(yytext, 120, -1); return RETURN; }
+if              { addToFIP(yytext, 2, -1); return IF; }
+else            { addToFIP(yytext, 3, -1); return ELSE; }
+while           { addToFIP(yytext, 4, -1); return WHILE;  }
+"/"             { addToFIP(yytext,27,-1); return DIVID;  }
+"<"             { addToFIP(yytext,31,-1); return LT;   }
+">"             { addToFIP(yytext,32,-1); return GT;  }
+"("|")"         { addToFIP(yytext,33,-1); return PARAN; }
+"{"         { addToFIP(yytext,34,-1); return OPENED_BRACE; }
+"}"         { addToFIP(yytext,100,-1); return CLOSED_BRACE; }
+"["|"]"         { addToFIP(yytext,35,-1); return SQUARE; }
+":"             { addToFIP(yytext,36,-1); return COLON; }
+";"             { addToFIP(yytext,37,-1); return SEMICOLON; }
+","             { addToFIP(yytext,38,-1); return COMMA; }
+"."             { addToFIP(yytext,39,-1); return PERIOD; }
+"="             { addToFIP(yytext,40,-1); return ASSIGN; }
+"+"             { addToFIP(yytext,41,-1); return PLUS; }
+"-"             { addToFIP(yytext,42,-1); return MINUS; }
+"*"             { addToFIP(yytext,43,-1); return MUL; }
+"!="            { addToFIP(yytext,44,-1); return NE; }
+"=="            { addToFIP(yytext,45,-1); return EQ; }
+"\<\<"          { addToFIP(yytext,101,-1); return OUT_OPERATOR; }
+"\>\>"          { addToFIP(yytext,102,-1); return IN_OPERATOR; }
+int             { addToFIP(yytext,103,-1); return INT; }         
+float           { addToFIP(yytext,104,-1); return FLOAT; }
+cin             { addToFIP(yytext,105,-1); return CIN; }
+cout            { addToFIP(yytext,106,-1); return COUT; }
+\".\"           { addToFIP(yytext,10,-1); return STRING; }
 {IDENTIFIER}    { addToTSIDS(yytext); return ID;}
 {INT_NUMBER}|{HEXA_NUMBER}|{BINARY_NUMBER}|{OCTAL_NUMBER}|{FLOAT_NUMBER} { addToTSCONSTS(yytext); return CONSTANT;}
 [\n]            { currentLine++; }
 
-[ \t]+ ;
+[ \t ]+ ;
 %%

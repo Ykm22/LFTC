@@ -38,9 +38,55 @@ void yyerror(char *s);
 %token JAVAUTIL
 %token EQ
 
+%token INCLUDE
+%token USING
+%token ANTHET
+%token OPENED_BRACE
+%token CLOSED_BRACE
+%token INT
+%token FLOAT
+%token IN_OPERATOR
+%token OUT_OPERATOR
+%token STRING
+%token CIN
+%token COUT
+%token RETURN
 %%
-program: IF PARAN ID PARAN ELSE ID EQ CONSTANT SEMICOLON
-       ;
+// program: program2 PARAN ID PARAN ELSE ID EQ CONSTANT SEMICOLON;
+program: library_import_list using_namespace_list ANTHET body;
+
+library_import_list: library_import | library_import library_import_list;
+library_import: INCLUDE;
+
+using_namespace_list: using_namespace | using_namespace using_namespace_list;
+using_namespace: USING SEMICOLON;
+
+body: OPENED_BRACE instr_list return CLOSED_BRACE;
+
+return: RETURN SEMICOLON;
+
+instr_list: instr | instr instr_list;
+instr: declaration | read | print | assign;
+
+declaration: type declaration_list SEMICOLON;
+declaration_list: ID | ID COMMA declaration_list;
+type: INT | FLOAT | ID
+
+read: CIN read_list SEMICOLON;
+read_list: read_item | read_item read_list
+read_item: IN_OPERATOR ID;
+
+print: COUT print_list SEMICOLON;
+print_list: print_item | print_item print_list
+print_item: OUT_OPERATOR print_type;
+print_type: ID | CONSTANT | STRING;
+
+assign: ID ASSIGN expr SEMICOLON;
+expr: ID | CONSTANT | expr_result;
+expr_result: expr op expr;
+op: PLUS | MINUS | DIVID | MOD | MUL;
+
+
 %%
 
 int main(int argc, char* argv[]) {
