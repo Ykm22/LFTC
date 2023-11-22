@@ -132,6 +132,9 @@ char									{ addToFIP(yytext, 9, -1); }
 \{                                      { addToFIP(yytext, 32, -1); }
 \}                                      { addToFIP(yytext, 33, -1); }
 \;                                      { addToFIP(yytext, 34, -1); }
+daca                                    { addToFIP(yytext, 35, -1); }
+atunci                                  { addToFIP(yytext, 36, -1); }
+sfdaca                                  { addToFIP(yytext, 37, -1); }
 {INT_NUMBER}                            { addToTSCONSTS(yytext); }
 {HEXA_NUMBER}                           { addToTSCONSTS(yytext); }
 {BINARY_NUMBER}                         { addToTSCONSTS(yytext); }
