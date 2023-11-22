@@ -4,6 +4,9 @@ sudo apt install bison
 
 # comenzi de rulat
 
+🟢 easier (in WSL) </br>
+`python3 compile_and_run.py fisier.txt`
+
 bison -d analyzer.y -- saves result into analyzer.tab.c and analyzer.tab.h</br>
 
 flex -o analyzer_lex.c analyzer.l </br>
