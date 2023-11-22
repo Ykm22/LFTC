@@ -5,6 +5,8 @@
 
 extern void printTS();
 extern void printFIP();
+extern void initializeSymbolTableCONSTS();
+extern void initializeSymbolTableIDS();
 extern int yylex();
 extern int yyparse();
 extern FILE* yyin;
@@ -42,6 +44,8 @@ program: IF PARAN ID PARAN ELSE ID EQ CONSTANT SEMICOLON
 %%
 
 int main(int argc, char* argv[]) {
+    initializeSymbolTableCONSTS();
+    initializeSymbolTableIDS();
     // sets the input for flex file
     if (argc > 1)
         yyin = fopen(argv[1], "r");
@@ -52,8 +56,8 @@ int main(int argc, char* argv[]) {
     while (!feof(yyin)) {
         yyparse();
     }
-    printTS();
     printFIP();
+    printTS();
     printf("The file is sintactically correct!\n");
     return 0;
 }
