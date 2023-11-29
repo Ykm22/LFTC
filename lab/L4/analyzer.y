@@ -34,6 +34,7 @@ void yyerror(char *s);
 %token NE
 %token BRACE
 %token PARAN
+
 %token SQUARE
 %token JAVAUTIL
 %token EQ
@@ -51,8 +52,18 @@ void yyerror(char *s);
 %token CIN
 %token COUT
 %token RETURN
+
+%token OPENED_PARAN
+%token CLOSED_PARAN
 %%
-// program: program2 PARAN ID PARAN ELSE ID EQ CONSTANT SEMICOLON;
+// activitate
+// program2: expr_list;
+// expr_list: expr SEMICOLON | expr SEMICOLON expr_list;
+// expr: OPENED_PARAN expr CLOSED_PARAN | OPENED_PARAN anything_list CLOSED_PARAN | OPENED_PARAN CLOSED_PARAN;
+// anything_list: anything | anything anything_list;
+// anything: CONSTANT | MUL;
+
+// tema
 program: library_import_list using_namespace_list ANTHET body;
 
 library_import_list: library_import | library_import library_import_list;

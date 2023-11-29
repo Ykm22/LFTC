@@ -125,7 +125,8 @@ while           { addToFIP(yytext, 4, -1); return WHILE;  }
 "/"             { addToFIP(yytext,27,-1); return DIVID;  }
 "<"             { addToFIP(yytext,31,-1); return LT;   }
 ">"             { addToFIP(yytext,32,-1); return GT;  }
-"("|")"         { addToFIP(yytext,33,-1); return PARAN; }
+"("         { addToFIP(yytext,33,-1); return OPENED_PARAN; }
+")"         { addToFIP(yytext,107,-1); return CLOSED_PARAN; }
 "{"         { addToFIP(yytext,34,-1); return OPENED_BRACE; }
 "}"         { addToFIP(yytext,100,-1); return CLOSED_BRACE; }
 "["|"]"         { addToFIP(yytext,35,-1); return SQUARE; }

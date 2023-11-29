@@ -89,7 +89,9 @@ extern int yydebug;
     STRING = 290,                  /* STRING  */
     CIN = 291,                     /* CIN  */
     COUT = 292,                    /* COUT  */
-    RETURN = 293                   /* RETURN  */
+    RETURN = 293,                  /* RETURN  */
+    OPENED_PARAN = 294,            /* OPENED_PARAN  */
+    CLOSED_PARAN = 295             /* CLOSED_PARAN  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif

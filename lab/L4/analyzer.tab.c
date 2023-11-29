@@ -150,30 +150,32 @@ enum yysymbol_kind_t
   YYSYMBOL_CIN = 36,                       /* CIN  */
   YYSYMBOL_COUT = 37,                      /* COUT  */
   YYSYMBOL_RETURN = 38,                    /* RETURN  */
-  YYSYMBOL_YYACCEPT = 39,                  /* $accept  */
-  YYSYMBOL_program = 40,                   /* program  */
-  YYSYMBOL_library_import_list = 41,       /* library_import_list  */
-  YYSYMBOL_library_import = 42,            /* library_import  */
-  YYSYMBOL_using_namespace_list = 43,      /* using_namespace_list  */
-  YYSYMBOL_using_namespace = 44,           /* using_namespace  */
-  YYSYMBOL_body = 45,                      /* body  */
-  YYSYMBOL_return = 46,                    /* return  */
-  YYSYMBOL_instr_list = 47,                /* instr_list  */
-  YYSYMBOL_instr = 48,                     /* instr  */
-  YYSYMBOL_declaration = 49,               /* declaration  */
-  YYSYMBOL_declaration_list = 50,          /* declaration_list  */
-  YYSYMBOL_type = 51,                      /* type  */
-  YYSYMBOL_read = 52,                      /* read  */
-  YYSYMBOL_read_list = 53,                 /* read_list  */
-  YYSYMBOL_read_item = 54,                 /* read_item  */
-  YYSYMBOL_print = 55,                     /* print  */
-  YYSYMBOL_print_list = 56,                /* print_list  */
-  YYSYMBOL_print_item = 57,                /* print_item  */
-  YYSYMBOL_print_type = 58,                /* print_type  */
-  YYSYMBOL_assign = 59,                    /* assign  */
-  YYSYMBOL_expr = 60,                      /* expr  */
-  YYSYMBOL_expr_result = 61,               /* expr_result  */
-  YYSYMBOL_op = 62                         /* op  */
+  YYSYMBOL_OPENED_PARAN = 39,              /* OPENED_PARAN  */
+  YYSYMBOL_CLOSED_PARAN = 40,              /* CLOSED_PARAN  */
+  YYSYMBOL_YYACCEPT = 41,                  /* $accept  */
+  YYSYMBOL_program = 42,                   /* program  */
+  YYSYMBOL_library_import_list = 43,       /* library_import_list  */
+  YYSYMBOL_library_import = 44,            /* library_import  */
+  YYSYMBOL_using_namespace_list = 45,      /* using_namespace_list  */
+  YYSYMBOL_using_namespace = 46,           /* using_namespace  */
+  YYSYMBOL_body = 47,                      /* body  */
+  YYSYMBOL_return = 48,                    /* return  */
+  YYSYMBOL_instr_list = 49,                /* instr_list  */
+  YYSYMBOL_instr = 50,                     /* instr  */
+  YYSYMBOL_declaration = 51,               /* declaration  */
+  YYSYMBOL_declaration_list = 52,          /* declaration_list  */
+  YYSYMBOL_type = 53,                      /* type  */
+  YYSYMBOL_read = 54,                      /* read  */
+  YYSYMBOL_read_list = 55,                 /* read_list  */
+  YYSYMBOL_read_item = 56,                 /* read_item  */
+  YYSYMBOL_print = 57,                     /* print  */
+  YYSYMBOL_print_list = 58,                /* print_list  */
+  YYSYMBOL_print_item = 59,                /* print_item  */
+  YYSYMBOL_print_type = 60,                /* print_type  */
+  YYSYMBOL_assign = 61,                    /* assign  */
+  YYSYMBOL_expr = 62,                      /* expr  */
+  YYSYMBOL_expr_result = 63,               /* expr_result  */
+  YYSYMBOL_op = 64                         /* op  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -504,7 +506,7 @@ union yyalloc
 #define YYLAST   45
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  39
+#define YYNTOKENS  41
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  24
 /* YYNRULES -- Number of rules.  */
@@ -513,7 +515,7 @@ union yyalloc
 #define YYNSTATES  65
 
 /* YYMAXUTOK -- Last valid token kind.  */
-#define YYMAXUTOK   293
+#define YYMAXUTOK   295
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -556,18 +558,18 @@ static const yytype_int8 yytranslate[] =
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
       15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
       25,    26,    27,    28,    29,    30,    31,    32,    33,    34,
-      35,    36,    37,    38
+      35,    36,    37,    38,    39,    40
 };
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    56,    56,    58,    58,    59,    61,    61,    62,    64,
-      66,    68,    68,    69,    69,    69,    69,    71,    72,    72,
-      73,    73,    73,    75,    76,    76,    77,    79,    80,    80,
-      81,    82,    82,    82,    84,    85,    85,    85,    86,    87,
-      87,    87,    87,    87
+       0,    67,    67,    69,    69,    70,    72,    72,    73,    75,
+      77,    79,    79,    80,    80,    80,    80,    82,    83,    83,
+      84,    84,    84,    86,    87,    87,    88,    90,    91,    91,
+      92,    93,    93,    93,    95,    96,    96,    96,    97,    98,
+      98,    98,    98,    98
 };
 #endif
 
@@ -588,12 +590,12 @@ static const char *const yytname[] =
   "MINUS", "MUL", "MOD", "DIVID", "ASSIGN", "LT", "GT", "NE", "BRACE",
   "PARAN", "SQUARE", "JAVAUTIL", "EQ", "INCLUDE", "USING", "ANTHET",
   "OPENED_BRACE", "CLOSED_BRACE", "INT", "FLOAT", "IN_OPERATOR",
-  "OUT_OPERATOR", "STRING", "CIN", "COUT", "RETURN", "$accept", "program",
-  "library_import_list", "library_import", "using_namespace_list",
-  "using_namespace", "body", "return", "instr_list", "instr",
-  "declaration", "declaration_list", "type", "read", "read_list",
-  "read_item", "print", "print_list", "print_item", "print_type", "assign",
-  "expr", "expr_result", "op", YY_NULLPTR
+  "OUT_OPERATOR", "STRING", "CIN", "COUT", "RETURN", "OPENED_PARAN",
+  "CLOSED_PARAN", "$accept", "program", "library_import_list",
+  "library_import", "using_namespace_list", "using_namespace", "body",
+  "return", "instr_list", "instr", "declaration", "declaration_list",
+  "type", "read", "read_list", "read_item", "print", "print_list",
+  "print_item", "print_type", "assign", "expr", "expr_result", "op", YY_NULLPTR
 };
 
 static const char *
@@ -681,23 +683,23 @@ static const yytype_int8 yycheck[] =
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,    26,    40,    41,    42,     0,    27,    43,    44,    41,
-       9,    28,    43,    29,    45,     3,    31,    32,    36,    37,
-      47,    48,    49,    51,    52,    55,    59,    17,    33,    53,
-      54,    34,    56,    57,    38,    46,    47,     3,    50,     3,
-       4,    60,    61,     3,     9,    53,     3,     4,    35,    58,
-       9,    56,     9,    30,    10,     9,     9,    12,    13,    14,
-      15,    16,    62,    50,    60
+       0,    26,    42,    43,    44,     0,    27,    45,    46,    43,
+       9,    28,    45,    29,    47,     3,    31,    32,    36,    37,
+      49,    50,    51,    53,    54,    57,    61,    17,    33,    55,
+      56,    34,    58,    59,    38,    48,    49,     3,    52,     3,
+       4,    62,    63,     3,     9,    55,     3,     4,    35,    60,
+       9,    58,     9,    30,    10,     9,     9,    12,    13,    14,
+      15,    16,    64,    52,    62
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    39,    40,    41,    41,    42,    43,    43,    44,    45,
-      46,    47,    47,    48,    48,    48,    48,    49,    50,    50,
-      51,    51,    51,    52,    53,    53,    54,    55,    56,    56,
-      57,    58,    58,    58,    59,    60,    60,    60,    61,    62,
-      62,    62,    62,    62
+       0,    41,    42,    43,    43,    44,    45,    45,    46,    47,
+      48,    49,    49,    50,    50,    50,    50,    51,    52,    52,
+      53,    53,    53,    54,    55,    55,    56,    57,    58,    58,
+      59,    60,    60,    60,    61,    62,    62,    62,    63,    64,
+      64,    64,    64,    64
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
@@ -1171,7 +1173,7 @@ yyreduce:
   switch (yyn)
     {
 
-#line 1175 "analyzer.tab.c"
+#line 1177 "analyzer.tab.c"
 
       default: break;
     }
@@ -1364,7 +1366,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 90 "analyzer.y"
+#line 101 "analyzer.y"
 
 
 int main(int argc, char* argv[]) {
